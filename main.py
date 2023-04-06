@@ -90,7 +90,6 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
             print('---') # 打印分割线
 
     def crawl(self, url, depth=1): # 定义爬取函数
-        file = open('text', 'w+') # 打开urls.txt文件
         if depth == 0: # 如果爬取深度为0
             return # 返回
         # try: # 尝试执行以下代码
@@ -103,7 +102,7 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
             print('Encoding:', response.encoding) # 打印编码方式
             print('-' * 30) # 打印分割线
             #ISO-8859-1 转 gnk
-            text = response.text.encode(response.encoding).decode('gbk', errors='ignore') # 将网页内容从response.encoding编码转换为utf-8编码
+            text = response.text.encode(response.encoding).decode('gbk', errors='ignore') # 忽略编码错误
             soup = BeautifulSoup(text, 'lxml') # 使用BeautifulSoup解析网页
             for link in soup.find_all('a'): # 遍历网页中的每个链接
                 if link.has_attr('href'): # 如果链接有href属性
@@ -120,7 +119,6 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
             text = re.sub(r'[^\w\s]', ' ', text) # 将文本中的非单词和非空格字符替换为空格
             text = re.sub(r'\s+', ' ', text) # 将文本中的多个空格替换为一个空格
             text = text.strip() # 去掉文本两端的空格
-            file.write(text)
             if len(text): # 如果文本不为空
                 print('Text length:', len(text)) # 打印文本长度
                 self.docs.append(url) # 将网址添加到文档列表中
@@ -138,6 +136,8 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
 
 rm = RetrievalModel('HongLouMeng') # 创建一个RetrievalModel对象，传入文件路径
 rm.crawl('http://www.purepen.com/hlm/', depth=2) # 调用爬取函数，传入网址和爬取深度
+print(rm.docs)
+print(rm.doc_length)
 # rm.build_index() # 调用建立索引的函数
 # rm.search('魔法少女') # 调用查询函数，传入查询字符串
 
