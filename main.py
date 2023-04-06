@@ -56,13 +56,14 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
             query_vector[term] = freq / length # 将每个单词的出现次数除以查询向量的长度，得到单词的权重
         return query_vector # 返回查询向量
 
-    def calculate_score(self, query): # 定义计算文档得分的函数
+    def calculate_score(self, query, words_counter): # 定义计算文档得分的函数
         query_vector = self.calculate_query_vector(query) # 调用计算查询向量的函数，得到查询向量
         scores = defaultdict(float) # 定义一个默认字典用于存储文档得分
         for term, freq in query_vector.items(): # 遍历查询向量中的每个单词和权重
             if term in self.index: # 如果单词在倒排索引中
                 idf = math.log(len(self.docs) / len(self.index[term])) # 计算单词的逆文档频率
                 for doc_id, tf in self.index[term].items(): # 遍历单词在倒排索引中的每个文档ID和出现次数
+                    words_counter[doc_id][term] = tf # 将单词和出现次数添加到文档ID对应的字典中
                     tf_weight = 1 + math.log(tf) # 计算单词的权重
                     scores[doc_id] += freq * tf_weight * idf # 计算文档得分
         for doc_id, score in scores.items(): # 遍历文档得分中的每个文档ID和得分
@@ -72,13 +73,16 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
 
     def search(self, query, num_results=10): # 定义查询函数
         query = cut.cut_sentence(query) # 对查询进行分词
-        results = self.calculate_score(query)[:num_results] # 调用计算文档得分的函数，取前num_results个文档
+        words_counter = defaultdict(dict) # 定义一个默认字典用于存储每个文档中的单词和出现次数
+        print('匹配分词:', query)
+        results = self.calculate_score(query, words_counter)[:num_results] # 调用计算文档得分的函数，取前num_results个文档
         for doc_id, score in results: # 遍历所有结果中的每个文档ID和得分
             print('Document:', self.docs[doc_id]) # 打印文档名
             print('Score:', score) # 打印得分
-            with open(os.path.join(self.path, self.docs[doc_id]), 'r', encoding='utf-8') as f: # 打开文档
-                print('Content:', f.readline().strip()) # 打印文档内容的第一行
-            print('---') # 打印分割线
+            print(words_counter[doc_id])
+            # with open(os.path.join(self.path, self.docs[doc_id]), 'r', encoding='utf-8') as f: # 打开文档
+            #     print('Content:', f.readline().strip()) # 打印文档内容的第一行
+            print('---' * 10) # 打印分割线
 
 
 
@@ -86,6 +90,6 @@ rm = RetrievalModel('DouLuoDaLu_seg') # 创建一个RetrievalModel对象，传�
 
 # print(rm.docs)
 # print(rm.doc_length)
-rm.search('白虎金刚变')
+rm.search('唐三 用 八 猪 魂骨调教小舞')
 
 
