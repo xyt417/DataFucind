@@ -59,7 +59,7 @@ headers = {
 # ======================
 
 
-# ====== 爬取三体 ======
+# ====== 爬取nt大陆 ======
 def crawl(path, url, depth=1): # 定义爬取函数
     if not os.path.exists(path):
         os.mkdir(path)
@@ -107,6 +107,6 @@ def crawl(path, url, depth=1): # 定义爬取函数
 # ======================
 
 
-# crawl('HongLouMeng', 'http://www.purepen.com/hlm/', depth=2) # 调用爬取函数，传入网址和爬取深度
-crawl('DouLuoDaLu', 'https://www.qb5.tw/book_518/', depth=2)
+# crawl('HongLouMeng', 'http://www.purepen.com/hlm/', depth=2) # 抽象楼梦
+crawl('DouLuoDaLu', 'https://www.qb5.tw/book_518/', depth=2) # nt大陆
 

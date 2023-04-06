@@ -76,8 +76,8 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
         for doc_id, score in results: # 遍历所有结果中的每个文档ID和得分
             print('Document:', self.docs[doc_id]) # 打印文档名
             print('Score:', score) # 打印得分
-            # with open(os.path.join(self.path, self.docs[doc_id]), 'r', encoding='utf-8') as f: # 打开文档
-                # print('Content:', f.readline().strip()) # 打印文档内容的第一行
+            with open(os.path.join(self.path, self.docs[doc_id]), 'r', encoding='utf-8') as f: # 打开文档
+                print('Content:', f.readline().strip()) # 打印文档内容的第一行
             print('---') # 打印分割线
 
 
