@@ -89,7 +89,8 @@ class RetrievalModel: # 定义一个名为RetrievalModel的类 RetrievalModel:�
 rm = RetrievalModel('DouLuoDaLu_seg') # 创建一个RetrievalModel对象，传入文件路径
 
 # print(rm.docs)
-# print(rm.doc_length)
-rm.search('唐三 用 八 猪 魂骨调教小舞')
+# print(rm.doc_length) 
+# rm.search('唐三用八猪魂骨调教小舞')
+rm.search('小舞下海献祭')
 
 
