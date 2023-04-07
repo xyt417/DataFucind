@@ -107,6 +107,6 @@ def crawl(path, url, depth=1): # 定义爬取函数
 # ======================
 
 
-# crawl('HongLouMeng', 'http://www.purepen.com/hlm/', depth=2) # 抽象楼梦
+# crawl('HongLouMeng', 'http://www.purepen.com/hlm/', depth=2) # 红楼梦(分词抽象)
 crawl('DouLuoDaLu', 'https://www.qb5.tw/book_518/', depth=2) # nt大陆
 
